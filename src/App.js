@@ -6,6 +6,7 @@ import AddPage from "./pages/Add";
 import EditPage from "./pages/Edit";
 import tw from 'twin.macro'
 import RegisterPage from "./pages/Register";
+import LoginPage from "./pages/Login";
 
 const Container = tw.div`text-center`
 
@@ -15,8 +16,11 @@ function App() {
       <GlobalStyles />
       <Container>
         <Switch>
-          <Route path={"/register"}>
+          <Route path="/register">
             <RegisterPage />
+          </Route>
+          <Route path="/login">
+            <LoginPage />
           </Route>
           <Route path="/add">
             <AddPage />

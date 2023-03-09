@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-underscore-dangle */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { Form, FormGroup, FormButtonGroup, Input, TextArea } from './ui/Form';
 import Button from './ui/Button';

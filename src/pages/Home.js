@@ -1,17 +1,26 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import PageLayout from '../layouts/PageLayout';
 import NotesList from '../components/NotesList';
 import Container from '../components/ui/Container';
-import Button from '../components/ui/Button';
+import { useSelector } from 'react-redux';
 
 const HomePage = () => {
+  const isLoggedIn = useSelector(state => state.user.isLoggedIn)
+
   return (
-    <PageLayout>
-      <Container>
-        <NotesList>Notes List</NotesList>
-      </Container>
-    </PageLayout>
+    <>
+      {isLoggedIn ? (
+        <PageLayout>
+          <Container>
+            <NotesList>Notes List</NotesList>
+          </Container>
+        </PageLayout>
+
+      ) : (
+        <Redirect to={"/login"} />
+      )}
+    </>
   );
 };
 

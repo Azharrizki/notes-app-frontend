@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
+const user = JSON.parse(localStorage.getItem('user'));
+
 const initialState = {
     data: [],
     status: 'idle',
@@ -7,15 +9,29 @@ const initialState = {
 }
 
 export const fetchNotes = createAsyncThunk('notes/fetchNotes', async () => {
-    const res = await fetch('http://localhost:3001/notes');
-    const data = await res.json();
-    return data
-})
+    const requestOptions = {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${user.token}`,
+            'Content-Type': 'application/json'
+        }
+    };
+    const response = await fetch(`http://localhost:3001/notes`, requestOptions);
+    if (response.ok) {
+        const data = await response.json();
+        return data;
+    } else {
+        throw Error(response.statusText);
+    }
+});
 
 export const addNewNote = createAsyncThunk('notes/AddNewNote', async (initialNotes) => {
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            Authorization: `Bearer ${user.token}`,
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify(initialNotes)
     };
     const response = await fetch(`http://localhost:3001/note`, requestOptions);
@@ -31,7 +47,10 @@ export const addNewNote = createAsyncThunk('notes/AddNewNote', async (initialNot
 export const updateExistingNote = createAsyncThunk('notes/updateExistingNote', async (currentNote) => {
     const requestOptions = {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            Authorization: `Bearer ${user.token}`,
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify(currentNote)
     };
 
@@ -47,7 +66,10 @@ export const updateExistingNote = createAsyncThunk('notes/updateExistingNote', a
 export const deleteNote = createAsyncThunk('notes/deleteNote', async (currentNote) => {
     const requestOptions = {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' }
+        headers: {
+            Authorization: `Bearer ${user.token}`,
+            'Content-Type': 'application/json'
+        }
     };
 
     const res = await fetch(`http://localhost:3001/note/${currentNote._id}`, requestOptions)
